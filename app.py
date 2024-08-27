@@ -2,12 +2,28 @@ import folium
 import requests
 import streamlit as st
 from streamlit.components.v1 import html
+import csv
 
 # Define specific places to highlight (example coordinates)
-places = {
-    "Oxford": {"location": (51.754816, -1.254367), "info": "Oxford - University City"},
-    "Bicester": {"location": (51.8984, -1.1514), "info": "Bicester - Market Town"}
-}
+places = {}
+csv_file_path = 'places.csv'
+with open(csv_file_path, mode='r') as file:
+    reader = csv.DictReader(file)
+    
+    # Iterate over each row in the CSV file
+    for row in reader:
+        # Extract data from the row
+        place = row['Place']
+        latitude = float(row['Latitude'])
+        longitude = float(row['Longitude'])
+        info = row['Info']
+        
+        # Update the dictionary
+        places[place] = {
+            'location': (latitude, longitude),
+            'info': info
+        }
+        
 
 # Load the Oxfordshire GeoJSON data
 @st.cache_data
@@ -61,5 +77,6 @@ def main():
 if __name__ == "__main__":
     main()
 
+# pip install folium requests streamlit
 # streamlit run app.py
 # Dev : https://linkedin.com/in/osamatech786
