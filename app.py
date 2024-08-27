@@ -4,6 +4,13 @@ import streamlit as st
 from streamlit.components.v1 import html
 import csv
 
+st.set_page_config(
+    page_title="Prevista - Oxfordshire",
+    page_icon="https://lirp.cdn-website.com/d8120025/dms3rep/multi/opt/social-image-88w.png",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
+
 # Define specific places to highlight (example coordinates)
 places = {}
 csv_file_path = 'places.csv'
@@ -41,7 +48,7 @@ def create_map(oxfordshire_geojson):
          sum(lon for lon, lat in coords) / len(coords))
     ]
     # Adjust the zoom level here
-    m = folium.Map(location=oxfordshire_center[0], zoom_start=9)  # Increased zoom level for a closer view
+    m = folium.Map(location=oxfordshire_center[0], zoom_start=10)  # Increased zoom level for a closer view
 
     # Add Oxfordshire boundary
     folium.GeoJson(
@@ -72,7 +79,7 @@ def main():
 
     # Increase the height to ensure the map is visible and sufficiently large
     html_string = m._repr_html_()
-    html(html_string, height=800)  # Adjust height here as needed
+    html(html_string, height=600)  # Adjust height here as needed
 
 if __name__ == "__main__":
     main()
