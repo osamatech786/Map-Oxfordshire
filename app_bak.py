@@ -25,15 +25,12 @@ with open(csv_file_path, mode='r') as file:
         longitude = float(row['Longitude'])
         info = row['Info']
         
-        # Check if any value is missing in the row
-        is_complete = all(row[field] for field in ['Place', 'Latitude', 'Longitude', 'Info'])
-        
-        # Update the dictionary with a flag for completeness
+        # Update the dictionary
         places[place] = {
             'location': (latitude, longitude),
-            'info': info,
-            'is_complete': is_complete
+            'info': info
         }
+        
 
 # Load the Oxfordshire GeoJSON data
 @st.cache_data
@@ -61,14 +58,11 @@ def create_map(oxfordshire_geojson):
 
     # Add markers for specific places
     for place, details in places.items():
-        # Determine the pin color based on completeness
-        pin_color = 'green' if details['is_complete'] else 'gray'
-        
         folium.Marker(
             location=details["location"],
             popup=folium.Popup(details["info"], max_width=300),
             tooltip=place,
-            icon=folium.Icon(color=pin_color, icon='info-sign')
+            icon=folium.Icon(color='blue', icon='info-sign')
         ).add_to(m)
 
     return m
