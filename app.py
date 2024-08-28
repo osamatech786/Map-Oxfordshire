@@ -11,9 +11,12 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# Prevista Logo
+# st.image('resources/logo.png', use_column_width=False, width=400) 
+
 # Define specific places to highlight (example coordinates)
 places = {}
-csv_file_path = 'places.csv'
+csv_file_path = 'resources/places.csv'
 with open(csv_file_path, mode='r') as file:
     reader = csv.DictReader(file)
     
@@ -75,13 +78,13 @@ def create_map(oxfordshire_geojson):
 
 def main():
     st.title('Oxfordshire Map - UK')
+    st.write("### Organisations Oxford")
 
     # Load and filter data
     oxfordshire_geojson = load_oxfordshire_data()
 
     # Create and display map
     m = create_map(oxfordshire_geojson)
-    st.write("### Organisations Oxford")
 
     # Increase the height to ensure the map is visible and sufficiently large
     html_string = m._repr_html_()
