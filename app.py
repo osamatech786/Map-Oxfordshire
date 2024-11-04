@@ -111,12 +111,25 @@ def create_map(oxfordshire_geojson):
     # Load places from Airtable
     places = load_places_from_airtable()  # This will return a list of places
 
+    # # Add markers for specific places
+    # for details in places:  # Iterate directly over the list of places
+    #     place = details['Place']
+    #     info = details['Info']  # Get the info field
+        
+    #     pin_color = 'green' if info else 'gray'  # Change logic here
+
     # Add markers for specific places
     for details in places:  # Iterate directly over the list of places
         place = details['Place']
         info = details['Info']  # Get the info field
-        
-        pin_color = 'green' if info else 'gray'  # Change logic here
+
+        # Determine the pin color based on Info
+        if info == "Already Engaging":
+            pin_color = 'green'
+        elif info == "In Progress":
+            pin_color = 'orange'
+        else:
+            pin_color = 'gray'
 
         folium.Marker(
             location=details["Location"],  # Ensure this is a tuple (lat, lon)
