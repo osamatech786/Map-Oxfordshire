@@ -121,7 +121,7 @@ def create_map(oxfordshire_geojson):
     # Add markers for specific places
     for details in places:  # Iterate directly over the list of places
         place = details['Place']
-        info = details['Info']  # Get the info field
+        info = details['Info'].strip()  # Strip any leading or trailing spaces
 
         # Determine the pin color based on Info
         if info == "Already Engaging":
@@ -182,7 +182,16 @@ def update_data_page():
                 return
 
     if st.session_state.authenticated:
-        st.write("### Editable Airtable Data")
+        st.write("### Editable Map Data")
+        
+        st.text("Please double click any cell to edit. Once you have updated multiple cells, click 'Update Table' button to apply changes.")
+        # Displaying the color coding instructions
+        st.markdown(""" 
+                    Map pins color mapping using "Info" column
+        - **Pin color : Green** -> "Already Engaging"
+        - **Pin color : Orange** -> "In Progress"
+        - **Pin color : Gray** -> anything else
+        """)
         
         # Fetch records from Airtable
         records = load_places_from_airtable()
